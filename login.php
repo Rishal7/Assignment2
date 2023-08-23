@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $_SESSION['userID'] = $user->id;
 
+        $_SESSION['role'] = $user->role;
 
         redirect('/home.php?id=' . $user->id);
 

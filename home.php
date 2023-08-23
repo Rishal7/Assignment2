@@ -2,6 +2,7 @@
 require 'classes/Database.php';
 require 'classes/Product.php';
 require 'classes/Category.php';
+require 'roles.php';
 
 session_start();
 
@@ -42,7 +43,11 @@ if ($selectedCategoryId) {
     <?php else: ?>
 
         <ul id="index">
-            <a href="new-product.php" class="btn btn-outline-primary btn-sm my-1">Add new</a>
+            <!-- <a href="new-product.php" class="btn btn-outline-primary btn-sm my-1">Add new</a> -->
+
+            <?php if ($_SESSION['role'] === 'admin' || $roleCapabilities[$_SESSION['role']]['add']): ?>
+                <a href="new-product.php" class="btn btn-outline-primary btn-sm my-1">Add new</a>
+            <?php endif; ?>
 
             <div class="row g-5 align-items-center">
 
