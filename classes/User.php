@@ -7,6 +7,7 @@ class User
     public $email;
     public $phone;
     public $password;
+    public $role;
 
     public function register($conn)
     {

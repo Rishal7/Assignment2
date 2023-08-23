@@ -2,6 +2,7 @@
 
 require 'classes/Database.php';
 require 'classes/Product.php';
+require 'roles.php';
 
 session_start();
 
@@ -42,12 +43,31 @@ if (isset($_GET['id'])) {
             
         </article>
 
-        <?php if($_SESSION['username'] == $product[0]['added_by']): ?>
+        <!-- <?php if($_SESSION['username'] == $product[0]['added_by']): ?>
 
         <a href="edit-product.php?id=<?= $product[0]['id']; ?>" class="btn btn-outline-primary btn-sm">Edit</a>
         <a href="delete-product.php?id=<?= $product[0]['id']; ?>"class="btn btn-outline-primary btn-sm ms-2">Delete</a>
 
-        <?php endif;?>
+        <?php endif;?> -->
+
+
+        <?php
+        $loggedInUsername = $_SESSION['username'];
+        $role = $_SESSION['role'];
+
+        if (array_key_exists($role, $roleCapabilities)) {
+            $capabilities = $roleCapabilities[$role];
+
+            if (($role === 'admin' && $capabilities['edit']) ||    ($capabilities['edit'] && $loggedInUsername == $product[0]['added_by'])) {
+                echo '<a href="edit-product.php?id=' . $product[0]['id'] . '" class="btn btn-outline-primary btn-sm">Edit</a>';
+            }
+
+            if (($role === 'admin' && $capabilities['delete']) ||    ($capabilities['delete'] && $loggedInUsername == $product[0]['added_by'])) {
+                echo '<a href="delete-product.php?id=' . $product[0]['id'] . '" class="btn btn-outline-primary btn-sm ms-2">Delete</a>';
+            }
+        }
+        ?>
+
 
     <?php else: ?>
 
